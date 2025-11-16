@@ -1,5 +1,10 @@
 {
   "name": "expense-tracker",
+  "description": "Learning React basics",
+  "author": {
+    "name": "Basit Hussain",
+    "email": "basit@email.com"
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {

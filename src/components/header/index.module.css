@@ -1,0 +1,11 @@
+.header {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+    url("https://img.freepik.com/free-photo/vibrant-colors-flow-abstract-wave-pattern-generated-by-ai_188544-9781.jpg?t=st=1763223404~exp=1763227004~hmac=0f6f399fd0bb00efc1b56a32d04d90c20b9284ac5b7699688bf2a1d5c8151b89&w=1060")
+      no-repeat center center/cover;
+  height: auto;
+  width: 100vw;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--light-color);
+  font-size: 1.8rem;
+}
