@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import style from "./index.module.css";
 
-const Form = () => {
+const today = new Date();
+const currentDate = today.toISOString().split[0];
+
+const Form = (props) => {
   // const [title, setTitle] = useState("");
   // const [price, setPrice] = useState(null);
   // const [date, setDate] = useState(null);
   const [data, setData] = useState({
     title: "",
-    price: null,
-    date: null,
+    price: "",
+    date: "",
   });
 
   const handleChange = (e) => {
@@ -31,6 +34,7 @@ const Form = () => {
     }
 
     console.log(data);
+    props.getExpense(data);
 
     setData({
       title: "",
@@ -69,6 +73,7 @@ const Form = () => {
           id="date"
           value={data.date}
           onChange={handleChange}
+          max={currentDate}
         />
       </div>
       <div style={{ marginTop: "2rem" }}>
