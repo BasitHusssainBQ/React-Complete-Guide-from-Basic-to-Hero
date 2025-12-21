@@ -1,92 +1,70 @@
-import React, { useState } from "react";
-import style from "./index.module.css";
+import React, { useEffect, useState } from "react";
 
-const today = new Date();
-const currentDate = today.toISOString().split[0];
+const currentDate = new Date().toISOString().split("T")[0];
 
-const Form = (props) => {
-  // const [title, setTitle] = useState("");
-  // const [price, setPrice] = useState(null);
-  // const [date, setDate] = useState(null);
-  const [data, setData] = useState({
+const Form = ({ getFormData, initialData, setUpdateData }) => {
+  const [formData, setFormData] = useState({
     title: "",
     price: "",
     date: "",
   });
 
-  const handleChange = (e) => {
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
+    if (initialData !== null) setFormData(initialData);
+  }, [initialData]);
 
-  // const handleTitleChange = (e) => setTitle(e.target.value);
-
-  // const handlePriceChange = (e) => setPrice(e.target.value);
-
-  // const handleDateChange = (e) => setDate(e.target.value);
+  const handleChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!data.title || !data.price || !data.date) {
-      alert("Input Fields are required");
-    }
-
-    console.log(data);
-    props.getExpense(data);
-
-    setData({
+    getFormData(formData, formData?.id ? "edit" : "create");
+    setFormData({
       title: "",
       price: "",
       date: "",
     });
+    setUpdateData(null);
   };
-
   return (
-    <form onSubmit={handleSubmit} className={`${style.card} sm-container`}>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="title">Title</label> <br />
+        <label htmlFor="title">Title</label>
         <input
           type="text"
-          name="title"
           id="title"
-          value={data.title}
+          name="title"
+          value={formData.title}
           onChange={handleChange}
+          required
         />
       </div>
       <div>
-        <label htmlFor="cost">Cost ($)</label> <br />
+        <label htmlFor="price">Price</label>
         <input
           type="number"
+          id="price"
           name="price"
-          id="cost"
-          value={data.price}
+          min={0}
+          value={formData.price}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="date">Date</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          max={currentDate}
+          value={formData.date}
           onChange={handleChange}
         />
       </div>
       <div>
-        <label htmlFor="date">Date</label> <br />
-        <input
-          type="date"
-          name="date"
-          id="date"
-          value={data.date}
-          onChange={handleChange}
-          max={currentDate}
-        />
-      </div>
-      <div style={{ marginTop: "2rem" }}>
-        <button
-          className="btn-primary"
-          style={{ marginRight: "1rem" }}
-          type="submit"
-        >
-          Add Expense
-        </button>
-        <button className="btn-secondary" type="reset">
-          Reset
-        </button>
+        <button type="submit">{initialData !== null ? "Update" : "Add"}</button>
+        <button type="Reset">Rest</button>
       </div>
     </form>
   );
