@@ -1,47 +1,35 @@
-import React, { useState } from "react";
-import Header from "./components/Header";
-import Form from "./components/Form";
-import List from "./components/List";
+import React, { useContext } from "react";
+import Login from "./components/login";
+import Signup from "./components/signup";
+import Home from "./components/home";
+import { Route, Routes } from "react-router";
+import { ToastContainer } from "react-toastify";
+import useAuth from "./hook/useAuth";
+import NotFound from "./components/notFound";
+import AuthContext from "./context/Auth/authContext";
 
 const App = () => {
-  const [listData, setListData] = useState([]);
-  const [updateData, setUpdateData] = useState(null);
+  const { isLoggedIn } = useContext(AuthContext);
 
-  const getFormData = (data, type) => {
-    if (type === "create") {
-      const newDataWithId = { ...data, id: Math.floor(Math.random() * 9999) };
-      setListData([newDataWithId, ...listData]);
-    } else if (data?.id && type === "edit") {
-      const modifyListData = listData.map((item) => {
-        if (item.id === data?.id) {
-          return data;
-        }
-        return item;
-      });
-      setListData(modifyListData);
-    }
-  };
-
-  const handleUpdateList = (id, type) => {
-    console.log(id, type);
-    if (type === "remove") {
-      const filteredList = listData.filter((item) => item.id !== id);
-      setListData(filteredList);
-    } else if (type === "edit") {
-      const getData = listData.find((item) => item.id === id);
-      if (getData?.id) setUpdateData(getData);
-    }
-  };
+  console.log({ isLoggedIn });
 
   return (
     <>
-      <Header />
-      <Form
-        getFormData={getFormData}
-        initialData={updateData}
-        setUpdateData={setUpdateData}
-      />
-      <List list={listData} handleUpdateList={handleUpdateList} />
+      <ToastContainer />
+      <Routes>
+        {isLoggedIn ? (
+          <>
+            <Route index element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+          </>
+        ) : (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<NotFound />} />
+          </>
+        )}
+      </Routes>
     </>
   );
 };
