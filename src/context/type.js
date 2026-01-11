@@ -1,3 +1,3 @@
-export const LOG_IN = "login";
-export const LOG_OUT = "logout";
-export const SIGN_UP = "signup";
+export const LOGIN = "login";
+export const SIGNUP = "signup";
+export const LOGOUT = "logout";
